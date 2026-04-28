@@ -190,3 +190,18 @@ CREATE TABLE IF NOT EXISTS surveillance_alerts (
     threshold_exceeded  BOOLEAN DEFAULT FALSE,
     created_at          TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- ─── Patient Identity Bridge ──────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS patient_identities (
+    suid                TEXT PRIMARY KEY,
+    novela_patient_id   TEXT UNIQUE NOT NULL,
+    pulse_patient_id    TEXT UNIQUE NOT NULL,
+    full_name           TEXT NOT NULL,
+    dob                 TEXT,
+    national_id         TEXT UNIQUE,
+    nhif_number         TEXT,
+    created_at          TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_pid_novela  ON patient_identities(novela_patient_id);
+CREATE INDEX IF NOT EXISTS idx_pid_pulse   ON patient_identities(pulse_patient_id);
+CREATE INDEX IF NOT EXISTS idx_pid_natid   ON patient_identities(national_id);

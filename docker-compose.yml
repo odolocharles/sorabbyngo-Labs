@@ -41,6 +41,7 @@ services:
     environment:
       DATABASE_URL: postgresql://sorabbyngo:sorabbyngo@postgres:5432/novela
       JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      CHECKSUM_SECRET: ${CHECKSUM_SECRET:-change-me-in-production}
     depends_on:
       - postgres
     ports:
