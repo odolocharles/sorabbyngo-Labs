@@ -8,6 +8,7 @@ from staff import router as staff_router
 from billing import router as billing_router
 from appointments import router as appt_router
 from identity_bridge import router as identity_router
+from login import router as auth_router
 
 
 @asynccontextmanager
@@ -30,6 +31,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
 app.include_router(staff_router)
 app.include_router(billing_router)
 app.include_router(appt_router)
