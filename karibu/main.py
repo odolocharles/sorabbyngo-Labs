@@ -2,8 +2,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .chw import router as chw_router
-from .anc import router as anc_router
+from chw import router as chw_router
+from anc import router as anc_router
 
 
 app = FastAPI(title="Karibu — Community & Maternal Health", version="1.0.0")

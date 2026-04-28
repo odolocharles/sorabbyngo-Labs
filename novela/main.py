@@ -3,10 +3,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from .db import init_pool, close_pool
-from .staff import router as staff_router
-from .billing import router as billing_router
-from .appointments import router as appt_router
+from db import init_pool, close_pool
+from staff import router as staff_router
+from billing import router as billing_router
+from appointments import router as appt_router
 
 
 @asynccontextmanager

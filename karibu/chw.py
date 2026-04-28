@@ -5,10 +5,10 @@ from typing import Optional, List
 from datetime import datetime
 import uuid
 
-from ..novela.db import get_conn
-from ..novela.auth import get_current_user
-from ..shared.schemas.vitals import VitalsReading, compute_news2, alert_level
-from ..shared.utils.suid import generate_suid
+from db import get_conn
+from auth import get_current_user
+from schemas import VitalsReading, compute_news2, alert_level
+from suid import generate_suid
 
 router = APIRouter(prefix="/chw", tags=["chw"])
 

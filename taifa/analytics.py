@@ -6,9 +6,9 @@ from datetime import datetime, date
 import httpx
 import os
 
-from ..novela.db import get_conn
-from ..novela.auth import get_current_user, require_role
-from ..shared.constants.kenya import COUNTIES
+from db import get_conn
+from auth import get_current_user, require_role
+from kenya import COUNTIES
 
 router = APIRouter(prefix="/taifa", tags=["taifa"])
 

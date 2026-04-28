@@ -7,8 +7,8 @@ import uuid
 import httpx
 import os
 
-from .db import get_conn
-from .auth import get_current_user
+from db import get_conn
+from auth import get_current_user
 
 router = APIRouter(prefix="/billing", tags=["billing"])
 

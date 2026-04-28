@@ -6,9 +6,9 @@ from datetime import datetime, date
 import uuid
 import math
 
-from ..novela.db import get_conn
-from ..novela.auth import get_current_user
-from ..shared.constants.kenya import MALARIA_SEASON, KEMSA_CATEGORIES
+from db import get_conn
+from auth import get_current_user
+from kenya import MALARIA_SEASON, KEMSA_CATEGORIES
 
 router = APIRouter(prefix="/dawa", tags=["dawa"])
 

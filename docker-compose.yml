@@ -44,7 +44,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "8001:8000"
+      - "18001:8000"
     restart: unless-stopped
 
   pulse:
@@ -61,7 +61,7 @@ services:
       - postgres
       - influxdb
     ports:
-      - "8002:8000"
+      - "18002:8000"
     restart: unless-stopped
 
   karibu:
@@ -71,7 +71,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "8003:8000"
+      - "18003:8000"
     restart: unless-stopped
 
   dawa:
@@ -81,7 +81,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "8004:8000"
+      - "18004:8000"
     restart: unless-stopped
 
   taifa:
@@ -92,7 +92,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "8005:8000"
+      - "18005:8000"
     restart: unless-stopped
 
   nginx:

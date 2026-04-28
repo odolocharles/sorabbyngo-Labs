@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .analytics import router as analytics_router
+from analytics import router as analytics_router
 
 
 app = FastAPI(title="Taifa — National Analytics", version="1.0.0")

@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .forecasting import router as forecast_router
+from forecasting import router as forecast_router
 
 
 app = FastAPI(title="Dawa — Pharmacy & Supply Chain", version="1.0.0")

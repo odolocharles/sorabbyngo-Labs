@@ -5,8 +5,8 @@ from typing import Optional, List
 from datetime import datetime
 import uuid
 
-from .db import get_conn
-from .auth import get_current_user, hash_password, require_role
+from db import get_conn
+from auth import get_current_user, hash_password, require_role
 
 router = APIRouter(prefix="/staff", tags=["staff"])
 
