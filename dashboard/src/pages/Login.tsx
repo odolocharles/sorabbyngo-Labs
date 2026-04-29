@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const BASE = import.meta.env.VITE_NOVELA_URL || "http://localhost:18001";
 
