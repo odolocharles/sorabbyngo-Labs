@@ -1,42 +1,55 @@
-import axios from "axios";
+import { useCallback } from "react";
+import { useAuth } from "../context/AuthContext";
 
-const BASE = import.meta.env.VITE_API_BASE || "http://localhost";
-
-const MODULE_PORTS: Record<string, number> = {
-  novela: 8001,
-  pulse: 8002,
-  karibu: 8003,
-  dawa: 8004,
-  taifa: 8005,
+const URLS: Record<string, string> = {
+  novela: import.meta.env.VITE_NOVELA_URL || "http://localhost:18001",
+  pulse:  import.meta.env.VITE_PULSE_URL  || "http://localhost:18002",
+  karibu: import.meta.env.VITE_KARIBU_URL || "http://localhost:18003",
+  dawa:   import.meta.env.VITE_DAWA_URL   || "http://localhost:18004",
+  taifa:  import.meta.env.VITE_TAIFA_URL  || "http://localhost:18005",
 };
 
-function moduleUrl(module: string, path: string): string {
-  const port = MODULE_PORTS[module];
-  return port ? `${BASE}:${port}${path}` : `${BASE}/${module}${path}`;
+function svcUrl(service: string, path: string) {
+  return `${URLS[service]}${path}`;
 }
 
 export function useApi() {
-  const token = localStorage.getItem("srb_token");
-  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  const { token } = useAuth();
 
-  async function get<T>(module: string, path: string): Promise<T> {
-    const { data } = await axios.get<T>(moduleUrl(module, path), { headers });
-    return data;
-  }
+  const headers = useCallback(
+    () => ({
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    }),
+    [token]
+  );
 
-  async function post<T>(module: string, path: string, body: unknown): Promise<T> {
-    const { data } = await axios.post<T>(moduleUrl(module, path), body, { headers });
-    return data;
-  }
+  const get = useCallback(async <T>(service: string, path: string): Promise<T> => {
+    const res = await fetch(svcUrl(service, path), { headers: headers() });
+    if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+    return res.json();
+  }, [headers]);
 
-  async function patch<T>(module: string, path: string, body: unknown): Promise<T> {
-    const { data } = await axios.patch<T>(moduleUrl(module, path), body, { headers });
-    return data;
-  }
+  const post = useCallback(async <T>(service: string, path: string, body: unknown): Promise<T> => {
+    const res = await fetch(svcUrl(service, path), {
+      method: "POST", headers: headers(), body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+    return res.json();
+  }, [headers]);
 
-  async function del(module: string, path: string): Promise<void> {
-    await axios.delete(moduleUrl(module, path), { headers });
-  }
+  const patch = useCallback(async <T>(service: string, path: string, body: unknown): Promise<T> => {
+    const res = await fetch(svcUrl(service, path), {
+      method: "PATCH", headers: headers(), body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+    return res.json();
+  }, [headers]);
+
+  const del = useCallback(async (service: string, path: string): Promise<void> => {
+    const res = await fetch(svcUrl(service, path), { method: "DELETE", headers: headers() });
+    if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+  }, [headers]);
 
   return { get, post, patch, del };
 }
