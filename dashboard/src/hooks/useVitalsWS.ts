@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
-const WS_BASE = import.meta.env.VITE_WS_BASE || "ws://localhost:8002";
+const WS_BASE = import.meta.env.VITE_WS_BASE || "ws://localhost:18002";
 
 export interface VitalsMessage {
   type: string;

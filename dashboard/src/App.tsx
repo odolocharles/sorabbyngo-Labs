@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import { HeartPulse, Users, Baby, Pill, Globe, Menu, X, LogOut, Activity, AlertTriangle, Cpu, Calendar, Receipt, Link, BarChart2, ShieldAlert } from "lucide-react";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
-// Pages
 import Login from "./pages/Login";
 import WardMonitor from "./pages/pulse/WardMonitor";
 import PatientVitals from "./pages/pulse/PatientVitals";
@@ -94,7 +93,7 @@ function Shell() {
   if (!token) return <Login />;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="min-h-screen bg-gray-50 flex">
         <Sidebar open={open} onClose={() => setOpen(false)} />
         <div className="flex-1 lg:ml-56 flex flex-col min-h-screen">
