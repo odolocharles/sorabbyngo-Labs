@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+.cache/
+
+# Env — keep .env.example, ignore real secrets
+# (dashboard/.env is committed intentionally with dev defaults)
+
+# OS
+.DS_Store
+*.swp

@@ -113,3 +113,16 @@ services:
 volumes:
   pgdata:
   influxdata:
+
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_NOVELA_URL: http://localhost:18001
+      VITE_PULSE_URL: http://localhost:18002
+      VITE_KARIBU_URL: http://localhost:18003
+      VITE_DAWA_URL: http://localhost:18004
+      VITE_TAIFA_URL: http://localhost:18005
+      VITE_WS_BASE: ws://localhost:18002
+    restart: unless-stopped
