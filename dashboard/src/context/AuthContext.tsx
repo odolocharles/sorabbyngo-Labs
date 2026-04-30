@@ -13,7 +13,6 @@ interface AuthCtx extends AuthState {
 }
 
 const AuthContext = createContext<AuthCtx | null>(null);
-
 const BASE = import.meta.env.VITE_NOVELA_URL || "http://localhost:18001";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
