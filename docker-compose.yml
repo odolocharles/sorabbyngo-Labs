@@ -37,11 +37,15 @@ services:
     restart: unless-stopped
 
   novela:
-    build: ./novela
+    build:
+      context: .
+      dockerfile: novela/Dockerfile
     environment:
       DATABASE_URL: postgresql://sorabbyngo:sorabbyngo@postgres:5432/novela
       JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
       CHECKSUM_SECRET: ${CHECKSUM_SECRET:-change-me-in-production}
+    volumes:
+      - ./shared:/app/shared
     depends_on:
       - postgres
     ports:
@@ -49,7 +53,9 @@ services:
     restart: unless-stopped
 
   pulse:
-    build: ./pulse
+    build:
+      context: .
+      dockerfile: pulse/Dockerfile
     environment:
       DATABASE_URL: postgresql://sorabbyngo:sorabbyngo@postgres:5432/novela
       INFLUX_URL: http://influxdb:8086
@@ -58,6 +64,8 @@ services:
       INFLUX_BUCKET: vitals
       AT_API_KEY: ${AT_API_KEY:-sandbox}
       AT_USERNAME: ${AT_USERNAME:-sandbox}
+    volumes:
+      - ./shared:/app/shared
     depends_on:
       - postgres
       - influxdb
@@ -66,9 +74,13 @@ services:
     restart: unless-stopped
 
   karibu:
-    build: ./karibu
+    build:
+      context: .
+      dockerfile: karibu/Dockerfile
     environment:
       DATABASE_URL: postgresql://sorabbyngo:sorabbyngo@postgres:5432/novela
+    volumes:
+      - ./shared:/app/shared
     depends_on:
       - postgres
     ports:
@@ -76,9 +88,13 @@ services:
     restart: unless-stopped
 
   dawa:
-    build: ./dawa
+    build:
+      context: .
+      dockerfile: dawa/Dockerfile
     environment:
       DATABASE_URL: postgresql://sorabbyngo:sorabbyngo@postgres:5432/novela
+    volumes:
+      - ./shared:/app/shared
     depends_on:
       - postgres
     ports:
@@ -86,14 +102,37 @@ services:
     restart: unless-stopped
 
   taifa:
-    build: ./taifa
+    build:
+      context: .
+      dockerfile: taifa/Dockerfile
     environment:
       DATABASE_URL: postgresql://sorabbyngo:sorabbyngo@postgres:5432/novela
       DHIS2_BASE_URL: ${DHIS2_BASE_URL:-https://play.dhis2.org/2.39.1}
+    volumes:
+      - ./shared:/app/shared
     depends_on:
       - postgres
     ports:
       - "18005:8000"
+    restart: unless-stopped
+
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_NOVELA_URL: http://localhost:18001
+      VITE_PULSE_URL: http://localhost:18002
+      VITE_KARIBU_URL: http://localhost:18003
+      VITE_DAWA_URL: http://localhost:18004
+      VITE_TAIFA_URL: http://localhost:18005
+      VITE_WS_BASE: ws://localhost:18002
+    depends_on:
+      - novela
+      - pulse
+      - karibu
+      - dawa
+      - taifa
     restart: unless-stopped
 
   nginx:
@@ -108,21 +147,9 @@ services:
       - karibu
       - dawa
       - taifa
+      - dashboard
     restart: unless-stopped
 
 volumes:
   pgdata:
   influxdata:
-
-  dashboard:
-    build: ./dashboard
-    ports:
-      - "3000:3000"
-    environment:
-      VITE_NOVELA_URL: http://localhost:18001
-      VITE_PULSE_URL: http://localhost:18002
-      VITE_KARIBU_URL: http://localhost:18003
-      VITE_DAWA_URL: http://localhost:18004
-      VITE_TAIFA_URL: http://localhost:18005
-      VITE_WS_BASE: ws://localhost:18002
-    restart: unless-stopped
