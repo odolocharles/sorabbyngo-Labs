@@ -25,7 +25,7 @@ export default function Procurement() {
 
   async function load() {
     try { setLoading(true);
-      const data = await get<Order[]>("dawa", `/dawa/procurement/${facilityId}`);
+      const data = await get<Order[]>("dawa", `/procurement/${facilityId}`);
       setOrders(data);
     } catch(e: any) { setError(e.message); }
     finally { setLoading(false); }
@@ -36,7 +36,7 @@ export default function Procurement() {
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault(); setSaving(true);
     try {
-      await post("dawa", "/dawa/procurement", {
+      await post("dawa", "/procurement", {
         facility_id: form.facility_id, route: form.route,
         priority: form.priority, notes: form.notes,
         items: [{ drug_name: form.drug, quantity: Number(form.qty), unit: form.unit, category: "essential" }],

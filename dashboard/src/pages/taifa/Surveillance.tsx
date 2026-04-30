@@ -22,7 +22,7 @@ export default function Surveillance() {
 
   async function load() {
     try { setLoading(true);
-      const data = await get<Alert[]>("taifa", "/taifa/surveillance/alerts");
+      const data = await get<Alert[]>("taifa", "/surveillance/alerts");
       setAlerts(data);
     } catch(e: any) { setError(e.message); }
     finally { setLoading(false); }
@@ -33,7 +33,7 @@ export default function Surveillance() {
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault(); setSaving(true);
     try {
-      await post("taifa", "/taifa/surveillance/alerts", {
+      await post("taifa", "/surveillance/alerts", {
         ...form, cases: Number(form.cases), deaths: Number(form.deaths), county_id: Number(form.county_id),
       });
       setModal(false); load();

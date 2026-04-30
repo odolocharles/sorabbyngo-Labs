@@ -15,7 +15,7 @@ export default function National() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    get<CountyStats[]>("taifa", "/taifa/analytics/national")
+    get<CountyStats[]>("taifa", "/analytics/national")
       .then(setData)
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));

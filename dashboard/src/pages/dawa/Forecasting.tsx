@@ -24,7 +24,7 @@ export default function Forecasting() {
   async function forecast(e: React.FormEvent) {
     e.preventDefault(); setLoading(true); setError(""); setResult(null);
     try {
-      const data = await post<ForecastResult>("dawa", "/dawa/forecast", {
+      const data = await post<ForecastResult>("dawa", "/forecast", {
         ...form,
         avg_monthly_consumption: Number(form.avg_monthly_consumption),
         current_stock: Number(form.current_stock),
